@@ -1,0 +1,1 @@
+OOP_Game.py contains python classes that can simulate ability rotations on bosses in (modern) Runescape. Use cases and test cases will be added soon. Future functionality include defense logic, boss logic (affinity, damage, mechanics etc), and a website with a GUI.
