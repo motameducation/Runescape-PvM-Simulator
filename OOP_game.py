@@ -131,7 +131,23 @@ class Asphyxiate(Ability):
         if player.armourset = "Tumeken":
             return [AbilityHit(0.72,0.84,delay_ticks=i,is_channelled_hit=True) for i in range(8)]
         return [AbilityHit(1.20,1.40,delay_ticks=i*2,is_channelled_hit=True) for i in range(4)]
-
+class SmokeTendrils(Ability):
+    def __init__(self):
+        super().__init__("Smoke Tendrils", adren_cost=0, cooldown=75, is_channelled=True)
+        
+    def get_hits(self, player) -> list[AbilityHit]:
+        hits = []
+        base_min, base_max = 0.55, 0.65
+        for i in range(4):
+            # 1.2s = 2 game ticks between hits. Damage scales +10-15% per hit.
+            hits.append(AbilityHit(
+                min_pct=base_min + (i * 0.10), 
+                max_pct=base_max + (i * 0.15), 
+                delay_ticks=i * 2, 
+                guaranteed_crit=True, 
+                is_channelled_hit=True
+            ))
+        return hits
 class FSoASpecial(Ability):
     def __init__(self):
         super().__init__("Instability",adren_cost=50,cooldown=100)
@@ -221,3 +237,8 @@ class RotationSimulator:
         for _ in range(procs):
             as_hit = AbilityHit(0.24*rank,0.396*rank)
             self.pending_hits.append(PendingHit("Aftershock Proc",as_hit,self.time_ticks))
+# Next steps: add the remaining magic abilities: greater sunshine, tsunami, omnipower, magma tempest, runic charge, greater chain, impact, combust, dragonbreath, corruption blast and basic attack,  add RoA special, add logic for spells: incite fear, exsang and crumble undead.
+# Next next steps: add logic for damage modifiers: affliction, vulnerability, tokkul-zo, genocidal, eruptive, essence corruption buff,  conflagrate, kerapac's wristwraps, corrupted slayer helmet, crackling,impatient, ultimatums,
+# salve amulet (e), undead slayer ability and undead slayer perk.
+# Future steps: add boss dmg, boss hit chance, add boss and Rotation Simulator classes to a PvMSimulator class. Include boss mechanics and defensive abilities to handle them. Logic for hit chance calculation.
+# Far away future steps: add necromancy abilities and conjures.
